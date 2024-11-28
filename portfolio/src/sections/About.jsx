@@ -25,8 +25,7 @@ const About = () => {
           <div>
             <p className="grid-headtext">Hi, I’m Manish Yadav</p>
             <p className="grid-subtext">
-              With 1 years of experience, I have honed my skills in both frontend and backend dev, creating dynamic
-              and responsive websites.
+            With a strong focus on web development, I have honed my skills in both frontend and backend technologies, creating dynamic and responsive websites.
             </p>
           </div>
         </div>
