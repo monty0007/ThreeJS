@@ -105,7 +105,7 @@ const Contact = () => {
                 placeholder="Share your thoughts or inquiries..."
               />
             </label>
-            <button onClick={handleSubmit} className="field-btn hover:bg-gray-600" type='submit' disabled={loading}>
+            <button className="field-btn hover:bg-gray-600" type='submit' disabled={loading}>
               {loading ? 'Sending...' : 'Send Message'}
               <img src="/assets/arrow-up.png" alt="arrow-up" className='field-btn_arrow' />
             </button>
