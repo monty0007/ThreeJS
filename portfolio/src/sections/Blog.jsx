@@ -20,10 +20,10 @@ const Blog = () => {
                         <Link to={`/blog/${post.id}`} key={post.id} className="bg-black-300 p-6 rounded-2xl border border-black-200 hover:border-white-500 transition-all duration-300 group cursor-pointer block">
                             <div className="w-full h-48 overflow-hidden rounded-xl mb-6">
                                 <div className="w-full h-full bg-black-200 flex items-center justify-center text-white-500 relative">
-                                    {post.image ? (
-                                        <img src={post.image} alt={post.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onError={(e) => e.target.style.display = 'none'} />
-                                    ) : null}
                                     <span className="absolute z-0">Image Placeholder</span>
+                                    {post.image ? (
+                                        <img src={post.image} alt={post.title} className="w-full h-full object-cover relative z-10 bg-black-200 group-hover:scale-105 transition-transform duration-500" onError={(e) => e.target.style.display = 'none'} />
+                                    ) : null}
                                 </div>
                             </div>
 

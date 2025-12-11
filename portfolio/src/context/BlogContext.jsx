@@ -120,7 +120,8 @@ export const BlogProvider = ({ children }) => {
         }
 
         try {
-            const postsRs = await db.execute('SELECT * FROM posts ORDER BY id DESC');
+            // Optimization: Exclude 'content' column for list view to reduce initial load size
+            const postsRs = await db.execute('SELECT id, title, excerpt, date, image, readTime, tags FROM posts ORDER BY id DESC');
             setPosts(postsRs.rows);
 
             const profileRs = await db.execute('SELECT * FROM profile WHERE id = 1');
@@ -136,6 +137,22 @@ export const BlogProvider = ({ children }) => {
             setPosts(initialPosts);
         } finally {
             setLoading(false);
+        }
+    };
+
+    // Fetch single post with full content on demand
+    const fetchPost = async (id) => {
+        if (!db) return initialPosts.find(p => p.id == id);
+        try {
+            const rs = await db.execute({
+                sql: 'SELECT * FROM posts WHERE id = ?',
+                args: [id]
+            });
+            if (rs.rows.length > 0) return rs.rows[0];
+            return null;
+        } catch (e) {
+            console.error("Fetch Post Error:", e);
+            return null;
         }
     };
 
@@ -201,7 +218,7 @@ export const BlogProvider = ({ children }) => {
     };
 
     return (
-        <BlogContext.Provider value={{ posts, profile, loading, addPost, updatePost, deletePost, getPost, updateProfile }}>
+        <BlogContext.Provider value={{ posts, profile, loading, addPost, updatePost, deletePost, getPost, fetchPost, updateProfile }}>
             {children}
         </BlogContext.Provider>
     );

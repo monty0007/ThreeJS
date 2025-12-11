@@ -6,7 +6,7 @@ import { compressImage } from '../utils/compressImage';
 
 const AdminEditor = () => {
     const { id } = useParams();
-    const { getPost, addPost, updatePost } = useBlog();
+    const { getPost, addPost, updatePost, fetchPost } = useBlog();
     const navigate = useNavigate();
 
     const [formData, setFormData] = useState({
@@ -23,19 +23,22 @@ const AdminEditor = () => {
     const TAG_OPTIONS = ['Technical', 'Tutorial', 'Blockchain', 'JavaScript', 'React', 'HTML', 'CSS', 'ThreeJS', 'GenAI'];
 
     useEffect(() => {
-        if (id) {
-            const post = getPost(id);
-            if (post) {
-                setFormData({
-                    title: post.title,
-                    excerpt: post.excerpt,
-                    content: post.content || '',
-                    image: post.image || '',
-                    tags: post.tags || 'Technical'
-                });
+        const loadPost = async () => {
+            if (id) {
+                const post = await fetchPost(id);
+                if (post) {
+                    setFormData({
+                        title: post.title,
+                        excerpt: post.excerpt,
+                        content: post.content || '',
+                        image: post.image || '',
+                        tags: post.tags || 'Technical'
+                    });
+                }
             }
-        }
-    }, [id, getPost]);
+        };
+        loadPost();
+    }, [id, fetchPost]);
 
     const onDropCover = useCallback(async (acceptedFiles) => {
         const file = acceptedFiles[0];

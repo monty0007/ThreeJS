@@ -118,17 +118,21 @@ const TableOfContents = ({ content }) => {
 
 const BlogPost = () => {
     const { id } = useParams();
-    const { getPost, loading } = useBlog();
+    const { fetchPost } = useBlog();
     const [post, setPost] = useState(null);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        if (!loading) {
-            const p = getPost(id);
+        const loadPost = async () => {
+            setLoading(true);
+            const p = await fetchPost(id);
             setPost(p);
-        }
-    }, [id, loading, getPost]);
+            setLoading(false);
+        };
+        loadPost();
+    }, [id, fetchPost]);
 
-    if (loading) return <div className="text-white text-center mt-20">Loading...</div>;
+    if (loading) return <div className="text-white text-center mt-20">Loading Post...</div>;
     if (!post) return <div className="text-white text-center mt-20">Post not found</div>;
 
     return (
@@ -178,6 +182,7 @@ const BlogPost = () => {
                         <ReactMarkdown
                             remarkPlugins={[remarkGfm]}
                             rehypePlugins={[rehypeSlug]}
+                            urlTransform={(value) => value}
                             components={{
                                 // Custom renderer for blockquotes to handle different types if needed
                                 blockquote: ({ node, children, ...props }) => (
