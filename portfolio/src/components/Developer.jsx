@@ -24,9 +24,13 @@ const Developer = ({ animationName = 'idle', ...props }) => {
 
   const { actions } = useAnimations([idleAnimation[0], saluteAnimation[0], clappingAnimation[0], victoryAnimation[0]], group)
 
-  useEffect(()=>{
-    actions[animationName].reset().fadeIn(0.5).play()
-  })
+  useEffect(() => {
+    const action = actions[animationName]
+    if (action) {
+        action.reset().fadeIn(0.5).play()
+        return () => action.fadeOut(0.5)
+    }
+  }, [animationName, actions])
 
   return (
     <group {...props} dispose={null} ref={group}>
