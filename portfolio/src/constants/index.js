@@ -19,6 +19,11 @@ export const navLinks = [
     name: 'Contact',
     href: '#contact',
   },
+  {
+    id: 5,
+    name: 'Blog',
+    href: '/blog',
+  },
 ]
 
 export const clientReviews = [
@@ -255,31 +260,31 @@ export const calculateSizes = (isSmall, isMobile, isTablet) => {
     cubePosition: isSmall
       ? [4, -5, 0]
       : isMobile
-      ? [5, -5, 0]
-      : isTablet
-      ? [5, -5, 0]
-      : [9, -5.5, 0],
+        ? [5, -5, 0]
+        : isTablet
+          ? [5, -5, 0]
+          : [9, -5.5, 0],
     reactLogoPosition: isSmall
       ? [3, 4, 0]
       : isMobile
-      ? [5, 4, 0]
-      : isTablet
-      ? [5, 4, 0]
-      : [12, 3, 0],
+        ? [5, 4, 0]
+        : isTablet
+          ? [5, 4, 0]
+          : [12, 3, 0],
     ringPosition: isSmall
       ? [-5, 7, 0]
       : isMobile
-      ? [-10, 10, 0]
-      : isTablet
-      ? [-12, 10, 0]
-      : [-24, 10, 0],
+        ? [-10, 10, 0]
+        : isTablet
+          ? [-12, 10, 0]
+          : [-24, 10, 0],
     targetPosition: isSmall
       ? [-5, -10, -10]
       : isMobile
-      ? [-9, -10, -10]
-      : isTablet
-      ? [-11, -7, -10]
-      : [-13, -13, -10],
+        ? [-9, -10, -10]
+        : isTablet
+          ? [-11, -7, -10]
+          : [-13, -13, -10],
   }
 }
 
@@ -345,3 +350,33 @@ export const workExperiences = [
 //     animation: 'salute',
 //   },
 // ];
+// ... existing code ...
+export const blogPosts = [
+  {
+    id: 1,
+    title: 'How to Master Three.js in 2024',
+    excerpt: 'Three.js is a powerful library for creating 3D graphics in the browser. Learn the roadmap to mastering it.',
+    date: 'Dec 12, 2024',
+    readTime: '5 min read',
+    image: '/assets/blog-1.png',
+    link: '#',
+  },
+  {
+    id: 2,
+    title: 'The Future of Web Development with AI',
+    excerpt: 'AI is changing the way we build websites. From coding assistants to generated UI, explore the future.',
+    date: 'Dec 10, 2024',
+    readTime: '4 min read',
+    image: '/assets/blog-2.png',
+    link: '#',
+  },
+  {
+    id: 3,
+    title: 'Building Scalable React Applications',
+    excerpt: 'Best practices for structuring your React projects for scalability and maintainability.',
+    date: 'Nov 28, 2024',
+    readTime: '7 min read',
+    image: '/assets/blog-3.png',
+    link: '#',
+  },
+];

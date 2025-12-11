@@ -8,6 +8,10 @@
   scroll-behavior: smooth;
 }
 
+html {
+  scroll-padding-top: 100px;
+}
+
 body {
   background: #010103;
   font-family: 'General Sans', sans-serif;
