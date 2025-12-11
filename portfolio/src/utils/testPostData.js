@@ -2,6 +2,7 @@ export const testPost = {
     title: "The Ultimate Guide to 3D Web Development: A Feature Test",
     excerpt: "A comprehensive test post demonstrating all the new features of the blog, including Table of Contents, Author Sidebar, and Rich Markdown styling.",
     image: "https://images.unsplash.com/photo-1633356122544-f134324a6cee?q=80&w=2670&auto=format&fit=crop",
+    date: "Dec 14, 2024",
     readTime: "15 min read",
     content: `
 > [!NOTE]

@@ -22,13 +22,23 @@ const Developer = ({ animationName = 'idle', ...props }) => {
   clappingAnimation[0].name = 'clapping'
   victoryAnimation[0].name = 'victory'
 
+  useEffect(() => {
+    const clips = [idleAnimation[0], saluteAnimation[0], clappingAnimation[0], victoryAnimation[0]];
+    clips.forEach((clip) => {
+      clip.tracks.forEach((track) => {
+        // Fix Mixamo/FBX bone naming to match GLTF
+        track.name = track.name.replace('mixamorig:', '').replace('Armature.', '').replace('Armature|', '');
+      });
+    });
+  }, []) // Run once to clean tracks
+
   const { actions } = useAnimations([idleAnimation[0], saluteAnimation[0], clappingAnimation[0], victoryAnimation[0]], group)
 
   useEffect(() => {
     const action = actions[animationName]
     if (action) {
-        action.reset().fadeIn(0.5).play()
-        return () => action.fadeOut(0.5)
+      action.reset().fadeIn(0.5).play()
+      return () => action.fadeOut(0.5)
     }
   }, [animationName, actions])
 

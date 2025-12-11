@@ -31,7 +31,7 @@ const Projects = () => {
           <div className="absolute top-0 right-0">
             <img
               src={currentProject.spotlight}
-              className="w-full h-96 object-cover rounder-xl"
+              className="w-full h-96 object-cover rounded-xl"
               alt=""
             />
           </div>

@@ -118,9 +118,48 @@ const TableOfContents = ({ content }) => {
     );
 };
 
+const TimelineTOC = ({ content }) => {
+    const [headings, setHeadings] = useState([]);
+
+    useEffect(() => {
+        const slugger = new GithubSlugger();
+        const lines = content?.split('\n') || [];
+        const extracted = lines
+            .filter(line => line.match(/^#{2}\s/))
+            .map(line => {
+                const level = 2;
+                const text = line.replace(/^#+\s+/, '');
+                const id = slugger.slug(text);
+                return { level, text, id };
+            });
+        setHeadings(extracted);
+    }, [content]);
+
+    if (headings.length === 0) return null;
+
+    return (
+        <div className="bg-black-300 rounded-xl p-5 border border-black-200 mb-8">
+            <h4 className="text-white font-bold mb-6 uppercase text-xs tracking-wider">Table of Contents</h4>
+            <div className="relative ml-2">
+                <div className="absolute left-[5px] top-2 bottom-2 w-0.5 bg-black-200"></div>
+                <ul className="space-y-6 relative">
+                    {headings.map((heading, index) => (
+                        <li key={index} className="pl-8 relative">
+                            <div className={`absolute left-[1px] top-1.5 w-2.5 h-2.5 rounded-full border-2 border-black-300 z-10 ${heading.level === 3 ? 'bg-black-200' : 'bg-blue-500'}`}></div>
+                            <a href={`#${heading.id}`} className={`block hover:text-blue-400 transition-colors text-sm ${heading.level === 3 ? 'text-white-600' : 'text-white-500 font-medium'}`}>
+                                {heading.text}
+                            </a>
+                        </li>
+                    ))}
+                </ul>
+            </div>
+        </div>
+    );
+};
+
 const BlogPost = () => {
     const { id } = useParams();
-    const { fetchPost } = useBlog();
+    const { fetchPost, profile } = useBlog();
     const [post, setPost] = useState(null);
     const [loading, setLoading] = useState(true);
 
@@ -138,16 +177,29 @@ const BlogPost = () => {
     if (!post) return <div className="text-white text-center mt-20">Post not found</div>;
 
     return (
-        <section className="c-space my-20 w-full px-4 mx-auto">
+        <section className="c-space my-20 w-full px-4 max-w-7xl mx-auto">
             <Link to="/blog" className="text-blue-400 hover:text-blue-300 mb-8 inline-flex items-center gap-2">
                 <span>&larr;</span> Back to Blog
             </Link>
 
             <div className="grid grid-cols-1 lg:grid-cols-[1fr_350px] gap-12">
-                <article>
+                <article className="w-full max-w-4xl mx-auto">
                     {post.image && (
-                        <div className="w-full h-64 md:h-[500px] rounded-2xl overflow-hidden mb-8 border border-black-200">
+                        <div className="w-full h-64 md:h-[500px] rounded-2xl overflow-hidden mb-2 lg:mb-8 border border-black-200">
                             <img src={post.image} alt={post.title} className="w-full h-full object-cover" />
+                        </div>
+                    )}
+
+                    {/* Mobile Mini Header */}
+                    {profile && (
+                        <div className="flex items-center gap-2 mt-0 mb-4 lg:hidden">
+                            <div className="w-8 h-8 rounded-full overflow-hidden bg-gray-600 shrink-0">
+                                <img src={profile.image} alt={profile.name} className="w-full h-full object-cover" />
+                            </div>
+                            <div>
+                                <h3 className="text-white font-bold text-sm leading-none">{profile.name}</h3>
+                                <p className="text-white-500 text-[10px] leading-tight">{profile.title}</p>
+                            </div>
                         </div>
                     )}
 
@@ -171,10 +223,11 @@ const BlogPost = () => {
                         <span>{post.readTime}</span>
                     </div>
 
+
                     <div className="prose prose-invert prose-lg max-w-none text-white-700
-                prose-headings:scroll-mt-48
-                prose-h2:text-white prose-h2:font-bold prose-h2:text-3xl md:prose-h2:text-4xl prose-h2:mt-12 prose-h2:mb-6 prose-h2:pt-4
-                prose-h3:text-white prose-h3:font-semibold prose-h3:text-2xl md:prose-h3:text-3xl prose-h3:mt-8 prose-h3:mb-4 prose-h3:pt-4
+                prose-headings:scroll-mt-0
+                prose-h2:text-white prose-h2:font-bold prose-h2:text-3xl md:prose-h2:text-4xl prose-h2:mt-2 prose-h2:mb-4
+                prose-h3:text-white prose-h3:font-semibold prose-h3:text-2xl md:prose-h3:text-3xl prose-h3:mt-2 prose-h3:mb-2
                 prose-p:leading-relaxed prose-p:mb-4
                 prose-a:text-blue-400 prose-a:no-underline hover:prose-a:underline
                 prose-blockquote:border-l-4 prose-blockquote:border-blue-500 prose-blockquote:bg-blue-500/10 prose-blockquote:px-6 prose-blockquote:py-4 prose-blockquote:rounded-r-lg prose-blockquote:not-italic
@@ -228,9 +281,15 @@ const BlogPost = () => {
                             {post.content || post.excerpt}
                         </ReactMarkdown>
                     </div>
+
+                    {/* Mobile Bottom Boxes */}
+                    <div className="lg:hidden space-y-12 mt-12 mb-20">
+                        <TimelineTOC content={post.content} />
+                        <AuthorProfile />
+                    </div>
                 </article>
 
-                <aside className="space-y-8">
+                <aside className="space-y-8 hidden lg:block">
                     <AuthorProfile />
                     <div className="lg:sticky lg:top-24">
                         <TableOfContents content={post.content} />

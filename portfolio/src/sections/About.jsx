@@ -1,11 +1,25 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import Button from '../components/Button'
-import { useState } from 'react';
 import Globe from 'react-globe.gl';
 
 
 const About = () => {
   const [hasCopied, setHasCopied] = useState(false);
+  const [width, setWidth] = useState(326);
+
+  useEffect(() => {
+    const handleResize = () => {
+      // Check if container exists or just use window width
+      // Constrain to typical container width on mobile minus padding
+      const newWidth = Math.min(window.innerWidth - 60, 326);
+      setWidth(newWidth > 0 ? newWidth : 326);
+    };
+
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   const handleCopy = () => {
     navigator.clipboard.writeText('monty.my1234@gmail.com');
     setHasCopied(true);
@@ -49,8 +63,8 @@ const About = () => {
           <div className="grid-container">
             <div className="rounded-3xl w-full sm:h-[326px] h-fit flex justify-center items-center">
               <Globe
-                height={326}
-                width={326}
+                height={width}
+                width={width}
                 backgroundColor="rgba(0, 0, 0, 0)"
                 backgroundImageOpacity={0.5}
                 showAtmosphere

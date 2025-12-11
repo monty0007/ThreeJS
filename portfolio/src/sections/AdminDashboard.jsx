@@ -17,9 +17,9 @@ const AdminDashboard = () => {
 
     return (
         <section className="c-space my-20 max-w-6xl mx-auto px-5">
-            <div className="flex justify-between items-center mb-10">
+            <div className="flex flex-col sm:flex-row justify-between items-center mb-10 gap-5">
                 <h2 className="head-text">Admin Dashboard</h2>
-                <div className="flex gap-4">
+                <div className="flex flex-wrap gap-4 justify-center sm:justify-end">
                     <button onClick={handleLogout} className="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded-lg transition-colors font-medium">
                         Logout
                     </button>
@@ -32,8 +32,8 @@ const AdminDashboard = () => {
                 </div>
             </div>
 
-            <div className="bg-black-300 rounded-2xl border border-black-200 overflow-hidden">
-                <table className="w-full text-left text-white-600">
+            <div className="bg-black-300 rounded-2xl border border-black-200 overflow-hidden overflow-x-auto">
+                <table className="min-w-[700px] w-full text-left text-white-600">
                     <thead className="bg-black-200 text-white-500 uppercase text-sm">
                         <tr>
                             <th className="px-6 py-4">Title</th>
