@@ -17,20 +17,67 @@ const AdminEditor = () => {
         tags: 'Technical'
     });
 
+    // Store heavy image data separately to keep editor clean
+    const [hiddenImages, setHiddenImages] = useState({});
+
+    // Store cursor position for image insertion
+    const [cursorPosition, setCursorPosition] = useState(0);
+
+    const updateCursorPosition = (e) => {
+        setCursorPosition(e.target.selectionStart);
+    };
+
     const [tagInput, setTagInput] = useState('');
     const [showSuggestions, setShowSuggestions] = useState(false);
 
     const TAG_OPTIONS = ['Technical', 'Tutorial', 'Blockchain', 'JavaScript', 'React', 'HTML', 'CSS', 'ThreeJS', 'GenAI'];
+
+    // Helper to separate text from image definitions
+    const parseContent = (fullText) => {
+        if (!fullText) return { text: '', images: {} };
+
+        const images = {};
+        // Regex to find reference definitions like [id]: data:image/...
+        // Matches start of line, bracket ID, colon, whitespace, data uri
+        const regex = /^\[([^\]]+)\]:\s*(data:image\/[^ \n\r]+)/gm;
+
+        const cleanText = fullText.replace(regex, (match, id, data) => {
+            images[id] = data;
+            return ''; // Remove from visible text
+        }).trim();
+
+        return { text: cleanText, images };
+    };
+
+    // Helper to combine text and images for saving
+    const reassembleContent = (text, images) => {
+        let final = text.trim();
+        const imageIds = Object.keys(images);
+
+        if (imageIds.length > 0) {
+            final += '\n\n'; // Spacing
+            imageIds.forEach(id => {
+                // Check if the image is actually used in the text (optional optimization, but safely add all)
+                if (text.includes(`][${id}]`)) {
+                    final += `[${id}]: ${images[id]}\n`;
+                }
+            });
+        }
+        return final;
+    };
 
     useEffect(() => {
         const loadPost = async () => {
             if (id) {
                 const post = await fetchPost(id);
                 if (post) {
+                    const { text, images } = parseContent(post.content || '');
+                    setHiddenImages(images);
+
                     setFormData({
                         title: post.title,
                         excerpt: post.excerpt,
-                        content: post.content || '',
+                        content: text,
                         image: post.image || '',
                         tags: post.tags || 'Technical'
                     });
@@ -60,18 +107,27 @@ const AdminEditor = () => {
                 const compressed = await compressImage(file, 800, 0.8);
                 const fileId = `img_${Date.now()}`; // Unique reference ID
                 const referenceLink = `\n![${file.name}][${fileId}]`; // Short reference
-                const referenceDefinition = `\n\n[${fileId}]: ${compressed}`; // Data at bottom
 
-                setFormData(prev => ({
-                    ...prev,
-                    content: prev.content + referenceLink + referenceDefinition
-                }));
+                // Store data hidden, show only link
+                setHiddenImages(prev => ({ ...prev, [fileId]: compressed }));
+
+                setFormData(prev => {
+                    const current = prev.content || '';
+                    const before = current.substring(0, cursorPosition);
+                    const after = current.substring(cursorPosition);
+                    return {
+                        ...prev,
+                        content: before + referenceLink + after
+                    };
+                });
             } catch (error) {
                 console.error('Compression failed:', error);
                 alert('Failed to process image.');
             }
         }
-    }, []);
+    }, [cursorPosition]);
+
+    // ... Dropzone config ... (Skipping simple lines to reduce diff size, assuming context holds)
 
     // Dropzone for Cover Image
     const {
@@ -98,10 +154,13 @@ const AdminEditor = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
+            const finalContent = reassembleContent(formData.content, hiddenImages);
+            const payload = { ...formData, content: finalContent };
+
             if (id) {
-                await updatePost(id, formData);
+                await updatePost(id, payload);
             } else {
-                await addPost(formData);
+                await addPost(payload);
             }
             navigate('/admin');
         } catch (error) {
@@ -317,7 +376,13 @@ const AdminEditor = () => {
                     <textarea
                         className="w-full bg-black-300 border border-black-200 rounded-lg p-3 text-white focus:outline-none focus:border-blue-500 h-96 font-mono"
                         value={formData.content}
-                        onChange={e => setFormData({ ...formData, content: e.target.value })}
+                        onChange={e => {
+                            setFormData({ ...formData, content: e.target.value });
+                            updateCursorPosition(e);
+                        }}
+                        onSelect={updateCursorPosition}
+                        onClick={updateCursorPosition}
+                        onKeyUp={updateCursorPosition}
                     />
                 </div>
 

@@ -14,6 +14,9 @@ import BlogPost from './sections/BlogPost'
 import AdminDashboard from './sections/AdminDashboard'
 import AdminEditor from './sections/AdminEditor'
 import AdminProfile from './sections/AdminProfile'
+import Login from './sections/Login'
+import { AuthProvider } from './context/AuthContext'
+import ProtectedRoute from './components/ProtectedRoute'
 
 const Home = () => (
   <>
@@ -28,23 +31,44 @@ const Home = () => (
 
 const App = () => {
   return (
-    <BlogProvider>
-      <BrowserRouter>
-        <main className=' max-w-7xl mx-auto'>
-          <Navbar />
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/blog" element={<Blog />} />
-            <Route path="/blog/:id" element={<BlogPost />} />
-            <Route path="/admin" element={<AdminDashboard />} />
-            <Route path="/admin/profile" element={<AdminProfile />} />
-            <Route path="/admin/editor" element={<AdminEditor />} />
-            <Route path="/admin/editor/:id" element={<AdminEditor />} />
-          </Routes>
-          <Footer />
-        </main>
-      </BrowserRouter>
-    </BlogProvider>
+    <AuthProvider>
+      <BlogProvider>
+        <BrowserRouter>
+          <main className=' max-w-7xl mx-auto'>
+            <Navbar />
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/blog" element={<Blog />} />
+              <Route path="/blog/:id" element={<BlogPost />} />
+
+              <Route path="/login" element={<Login />} />
+
+              <Route path="/admin" element={
+                <ProtectedRoute>
+                  <AdminDashboard />
+                </ProtectedRoute>
+              } />
+              <Route path="/admin/profile" element={
+                <ProtectedRoute>
+                  <AdminProfile />
+                </ProtectedRoute>
+              } />
+              <Route path="/admin/editor" element={
+                <ProtectedRoute>
+                  <AdminEditor />
+                </ProtectedRoute>
+              } />
+              <Route path="/admin/editor/:id" element={
+                <ProtectedRoute>
+                  <AdminEditor />
+                </ProtectedRoute>
+              } />
+            </Routes>
+            <Footer />
+          </main>
+        </BrowserRouter>
+      </BlogProvider>
+    </AuthProvider>
   )
 }
 

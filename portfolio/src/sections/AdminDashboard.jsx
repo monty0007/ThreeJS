@@ -1,9 +1,17 @@
 import React from 'react';
 import { useBlog } from '../context/BlogContext';
-import { Link } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
+import { Link, useNavigate } from 'react-router-dom';
 
 const AdminDashboard = () => {
     const { posts, deletePost, loading } = useBlog();
+    const { logout } = useAuth();
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        logout();
+        navigate('/login');
+    };
 
     if (loading) return <div className="text-white text-center mt-20">Loading...</div>;
 
@@ -12,6 +20,9 @@ const AdminDashboard = () => {
             <div className="flex justify-between items-center mb-10">
                 <h2 className="head-text">Admin Dashboard</h2>
                 <div className="flex gap-4">
+                    <button onClick={handleLogout} className="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded-lg transition-colors font-medium">
+                        Logout
+                    </button>
                     <Link to="/admin/profile" className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg transition-colors">
                         Edit Profile
                     </Link>
