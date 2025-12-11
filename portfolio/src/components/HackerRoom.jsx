@@ -1,10 +1,10 @@
 import React, { useRef } from 'react'
 import { useGLTF, useTexture } from '@react-three/drei'
 
-const HackerRoom=(props)=> {
-  const { nodes, materials } = useGLTF('/models/gaming_laptop.glb')
+const HackerRoom = (props) => {
+  const { nodes, materials } = useGLTF('/models/gaming_laptop_draco.glb')
 
-  const monitorTexture= useTexture('textures/desk/gamee.png')
+  const monitorTexture = useTexture('textures/desk/gamee.png')
 
   return (
     <group {...props} dispose={null}>
@@ -18,7 +18,7 @@ const HackerRoom=(props)=> {
           rotation={[-Math.PI / 2, 0.078, Math.PI / 2]}
           scale={21.893}
         />
-        
+
         <mesh
           castShadow
           receiveShadow
@@ -2561,7 +2561,7 @@ const HackerRoom=(props)=> {
           rotation={[-Math.PI / 2, 1.501, Math.PI / 2]}
           scale={[331.621, 348.065, 331.621]}
         >
-        <meshMatcapMaterial map={monitorTexture} />
+          <meshMatcapMaterial map={monitorTexture} />
         </mesh>
         <mesh
           castShadow
@@ -6177,5 +6177,5 @@ const HackerRoom=(props)=> {
   )
 }
 
-useGLTF.preload('/models/gaming_laptop.glb')
+useGLTF.preload('/models/gaming_laptop_draco.glb')
 export default HackerRoom
