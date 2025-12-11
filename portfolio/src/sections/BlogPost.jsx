@@ -4,6 +4,8 @@ import ReactMarkdown from 'react-markdown';
 import rehypeSlug from 'rehype-slug';
 import remarkGfm from 'remark-gfm';
 import GithubSlugger from 'github-slugger';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { useBlog } from '../context/BlogContext';
 
 const SocialIcon = ({ platform }) => {
@@ -184,18 +186,43 @@ const BlogPost = () => {
                             rehypePlugins={[rehypeSlug]}
                             urlTransform={(value) => value}
                             components={{
-                                // Custom renderer for blockquotes to handle different types if needed
+                                // Custom renderer for blockquotes
                                 blockquote: ({ node, children, ...props }) => (
                                     <blockquote {...props} className="border-l-4 border-l-blue-500 bg-blue-900/20 pl-4 py-2 my-4 text-white-600 rounded-r-lg">
                                         {children}
                                     </blockquote>
                                 ),
+                                // Custom renderer for images
                                 img: ({ node, src, alt, ...props }) => (
                                     <figure className="my-6">
                                         <img src={src} alt={alt} className="w-full rounded-xl border border-black-200" {...props} />
                                         {alt && <figcaption className="text-center text-white-500 text-sm mt-2">{alt}</figcaption>}
                                     </figure>
-                                )
+                                ),
+                                // Custom renderer for code blocks
+                                code: ({ node, inline, className, children, ...props }) => {
+                                    const match = /language-(\w+)/.exec(className || '');
+                                    return !inline && match ? (
+                                        <SyntaxHighlighter
+                                            style={vscDarkPlus}
+                                            language={match[1]}
+                                            PreTag="div"
+                                            customStyle={{
+                                                background: '#1a1a1a',
+                                                border: '1px solid #333',
+                                                borderRadius: '0.5rem',
+                                                padding: '1.5rem',
+                                            }}
+                                            {...props}
+                                        >
+                                            {String(children).replace(/\n$/, '')}
+                                        </SyntaxHighlighter>
+                                    ) : (
+                                        <code className={`${className} bg-black-300 text-blue-300 px-1.5 py-0.5 rounded font-mono text-sm`} {...props}>
+                                            {children}
+                                        </code>
+                                    );
+                                }
                             }}
                         >
                             {post.content || post.excerpt}

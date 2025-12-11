@@ -360,6 +360,10 @@ const AdminEditor = () => {
                                     <code className="bg-black-300 px-1.5 py-0.5 rounded text-green-400">&gt; text</code>
                                     <span>Blue Note / Callout Box</span>
                                 </div>
+                                <div className="flex items-center gap-2">
+                                    <code className="bg-black-300 px-1.5 py-0.5 rounded text-purple-400">```js code ```</code>
+                                    <span>Code Block</span>
+                                </div>
                                 <div className="text-xs text-white-500 italic mt-1">
                                     * Start line with &gt; to make a highlighted note.
                                 </div>
