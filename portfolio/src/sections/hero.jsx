@@ -71,7 +71,7 @@ const hero = () => {
 
       <div className="w-full h-full absolute inset-0">
         {/* <Leva /> */}
-        <Canvas className="w-full h-full">
+        <Canvas className="w-full h-full" dpr={[1, 1]}>
           <Suspense fallback={<CanvasLoader />}>
             <PerspectiveCamera makeDefault position={[0, 0, 30]} />
             <HeroCamera isMobile={isMobile}>
@@ -80,7 +80,7 @@ const hero = () => {
                 // position={[1, -3, 0]}
                 // rotation={[0.3,4.7, 0]}
                 position={sizes.deskPosition}
-                rotation={[0.1, -Math.PI, 0]}
+                rotation={[0.1, -Math.PI / 2, 0]}
                 scale={sizes.deskScale}
               />
             </HeroCamera>

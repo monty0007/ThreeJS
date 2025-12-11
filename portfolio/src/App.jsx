@@ -1,14 +1,9 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { BlogProvider } from './context/BlogContext'
 import Navbar from './sections/Navbar'
 import Hero from './sections/hero'
-import About from './sections/About'
-import Projects from './sections/Projects'
-import Clients from './sections/Clients'
-import Contact from './components/Contact'
 import Footer from './components/Footer'
-import Experience from './components/Experience'
 import Blog from './sections/Blog'
 import BlogPost from './sections/BlogPost'
 import AdminDashboard from './sections/AdminDashboard'
@@ -17,15 +12,24 @@ import AdminProfile from './sections/AdminProfile'
 import Login from './sections/Login'
 import { AuthProvider } from './context/AuthContext'
 import ProtectedRoute from './components/ProtectedRoute'
+import ScrollToTop from './components/ScrollToTop'
+
+const About = React.lazy(() => import('./sections/About'));
+const Projects = React.lazy(() => import('./sections/Projects'));
+const Clients = React.lazy(() => import('./sections/Clients'));
+const Contact = React.lazy(() => import('./components/Contact'));
+const Experience = React.lazy(() => import('./components/Experience'));
 
 const Home = () => (
   <>
     <Hero />
-    <About />
-    <Projects />
-    <Clients />
-    <Experience />
-    <Contact />
+    <Suspense fallback={<div className="flex justify-center py-20 text-white">Loading content...</div>}>
+      <About />
+      <Projects />
+      <Clients />
+      <Experience />
+      <Contact />
+    </Suspense>
   </>
 )
 
@@ -34,6 +38,7 @@ const App = () => {
     <AuthProvider>
       <BlogProvider>
         <BrowserRouter>
+          <ScrollToTop />
           <main className=' max-w-7xl mx-auto'>
             <Navbar />
             <Routes>
