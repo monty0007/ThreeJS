@@ -2,9 +2,6 @@
 
 A modern, immersive developer portfolio built with React, Three.js, and Tailwind CSS. Features a custom-built blog system with a secure admin dashboard, interactive 3D elements, and a responsive design.
 
-![Portfolio Preview](./public/assets/terminal.png) 
-*(Note: Replace with an actual screenshot of your hero section)*
-
 ## ✨ Features
 
 - **3D Immersive Experience**: Built with **Three.js** and **React Three Fiber**. Features a "Hacker Room" hero scene, interactive 3D avatar animations, and a 3D globe.
