@@ -6,7 +6,8 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        generalsans: ['General Sans', 'sans-serif'],
+        generalsans: ['Outfit', 'sans-serif'],
+        jumps: ['Jumps', 'sans-serif'],
       },
       colors: {
         black: {

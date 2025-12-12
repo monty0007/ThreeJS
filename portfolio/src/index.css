@@ -1,4 +1,11 @@
-@import url('https://fonts.cdnfonts.com/css/general-sans');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
+
+@font-face {
+  font-family: 'Jumps';
+  src: url('/jumps-winter/Jumps Winter.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
 
 @tailwind base;
 @tailwind components;
@@ -14,7 +21,9 @@ html {
 
 body {
   background: #010103;
-  font-family: 'General Sans', sans-serif;
+  background-image: radial-gradient(circle at 50% 0%, #1C1C21 0%, #010103 70%);
+  font-family: 'Outfit', sans-serif;
+  color: white;
 }
 
 @layer utilities {
@@ -23,7 +32,7 @@ body {
   }
 
   .head-text {
-    @apply sm:text-4xl text-3xl font-semibold text-gray_gradient;
+    @apply sm:text-4xl text-3xl font-semibold text-gray_gradient font-jumps;
   }
 
   .nav-ul {
@@ -61,16 +70,16 @@ body {
 
   /* hero section */
   .hero_tag {
-    @apply text-center xl:text-6xl md:text-5xl sm:text-4xl text-3xl font-generalsans font-black !leading-normal;
+    @apply text-center xl:text-6xl md:text-5xl sm:text-4xl text-3xl font-jumps font-black !leading-normal;
   }
 
   /* about section */
   .grid-container {
-    @apply w-full h-full border border-black-300 bg-black-200 rounded-lg sm:p-7 p-4 flex flex-col gap-5;
+    @apply w-full h-full border border-black-300 bg-black-200/60 backdrop-blur-sm rounded-xl sm:p-7 p-4 flex flex-col gap-5 hover:border-black-100 transition-colors duration-300;
   }
 
   .grid-headtext {
-    @apply text-xl font-semibold mb-2 text-white font-generalsans;
+    @apply text-xl font-semibold mb-2 text-white font-jumps;
   }
 
   .grid-subtext {

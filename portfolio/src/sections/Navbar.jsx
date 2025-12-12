@@ -1,5 +1,4 @@
-import React from 'react'
-import { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { navLinks } from '../constants/index.js'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 
@@ -46,7 +45,31 @@ const NavItems = ({ onClick }) => {
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false)
+    const [isVisible, setIsVisible] = useState(true)
+    const [hasScrolled, setHasScrolled] = useState(false)
     const navigate = useNavigate();
+
+    useEffect(() => {
+        if (isOpen) return;
+
+        let lastScrollY = window.scrollY;
+
+        const handleScroll = () => {
+            const currentScrollY = window.scrollY;
+
+            if (currentScrollY > lastScrollY && currentScrollY > 30) {
+                setIsVisible(false);
+            } else if (currentScrollY < lastScrollY) {
+                setIsVisible(true);
+            }
+
+            setHasScrolled(currentScrollY > 20);
+            lastScrollY = currentScrollY;
+        };
+
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, [isOpen]);
 
     const toggleMenu = () => {
         setIsOpen((prevIsOpen) => !prevIsOpen)
@@ -59,7 +82,7 @@ const Navbar = () => {
     };
 
     return (
-        <header className=' fixed top-0 left-0 right-0 z-50 bg-black/90'>
+        <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isVisible ? 'translate-y-0' : '-translate-y-full'} ${hasScrolled ? 'bg-black-200/70 backdrop-blur-md' : 'bg-transparent'}`}>
             <div className="max-w-7xl mx-auto">
                 <div className="flex justify-between items-center py-5 mx-auto c-space">
                     <a href="/" onClick={handleNameClick} className='text-neutral-400 font-bold text-xl hover:text-white transition-colors'>Manish Yadav</a>
