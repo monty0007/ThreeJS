@@ -29,7 +29,7 @@ export const navLinks = [
 export const clientReviews = [
   {
     id: 1,
-    name: 'Meena Yadav',
+    name: 'Anushka Sharma',
     position: 'Software Developer',
     img: 'assets/review1.png',
     review:
@@ -37,7 +37,7 @@ export const clientReviews = [
   },
   {
     id: 2,
-    name: 'Dev Kumar',
+    name: 'Dev Kumar Gupta',
     position: 'Full Stack Developer',
     img: 'assets/review2.png',
     review:
@@ -53,7 +53,7 @@ export const clientReviews = [
   },
   {
     id: 4,
-    name: 'Lokesh Singh',
+    name: 'Deepesh Sharma',
     position: 'Software Developer',
     img: 'assets/review4.png',
     review:
@@ -292,10 +292,10 @@ export const workExperiences = [
   {
     id: 1,
     name: 'Foetron',
-    pos: 'Data and AI Engineer',
+    pos: 'GenAI Engineer',
     duration: 'Nov, 2024 - Present',
     title:
-      'Contributing to data-driven solutions and AI model development. My role involves building predictive models, analyzing datasets, and assisting in designing intelligent business applications.',
+      'Actively building AI-powered apps and data-driven features — shaping intelligent user experiences and enhancing products with insights. I’m also working with the Power Platform to create smart, automated business solutions that turn raw data into real impact.',
     icon: '/assets/foetron.png',
     animation: 'victory',
   },
@@ -305,7 +305,7 @@ export const workExperiences = [
     pos: 'Full Stack Developer',
     duration: 'Feb, 2024 - Oct, 2024',
     title:
-      'Developed scalable and responsive web applications using MERN stack. Focused on creating seamless user experiences and integrating immersive technologies for enhanced client satisfaction.',
+      'Built scalable MERN apps with Redis caching, Redux state management, Firebase integrations, Socket.io real-time features, and Stripe payments — all focused on smooth, high-impact user experiences.',
     icon: '/assets/xrc.png',
     animation: 'clapping',
   },

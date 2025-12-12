@@ -19,12 +19,14 @@ const Projects = React.lazy(() => import('./sections/Projects'));
 const Clients = React.lazy(() => import('./sections/Clients'));
 const Contact = React.lazy(() => import('./components/Contact'));
 const Experience = React.lazy(() => import('./components/Experience'));
+const Achievements = React.lazy(() => import('./components/Achievements'));
 
 const Home = () => (
   <>
     <Hero />
     <Suspense fallback={<div className="flex justify-center py-20 text-white">Loading content...</div>}>
       <About />
+      <Achievements />
       <Projects />
       <Clients />
       <Experience />
