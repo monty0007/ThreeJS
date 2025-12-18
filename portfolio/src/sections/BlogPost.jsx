@@ -98,22 +98,6 @@ const TableOfContents = ({ content }) => {
                     ))}
                 </ul>
             </div>
-
-            <style jsx>{`
-                .custom-scrollbar::-webkit-scrollbar {
-                    width: 4px;
-                }
-                .custom-scrollbar::-webkit-scrollbar-track {
-                    background: transparent;
-                }
-                .custom-scrollbar::-webkit-scrollbar-thumb {
-                    background: #333;
-                    border-radius: 4px;
-                }
-                .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-                    background: #555;
-                }
-            `}</style>
         </div>
     );
 };
@@ -239,6 +223,13 @@ const BlogPost = () => {
                             rehypePlugins={[rehypeSlug]}
                             urlTransform={(value) => value}
                             components={{
+                                // Custom renderer for paragraphs to prevent nesting issues
+                                p: ({ node, children }) => {
+                                    if (node.children[0] && node.children[0].tagName === "img") {
+                                        return <>{children}</>;
+                                    }
+                                    return <p className="mb-3 leading-relaxed">{children}</p>;
+                                },
                                 // Custom renderer for blockquotes
                                 blockquote: ({ node, children, ...props }) => (
                                     <blockquote {...props} className="border-l-4 border-l-blue-500 bg-blue-900/20 pl-4 py-2 my-4 text-white-600 rounded-r-lg">
