@@ -177,7 +177,7 @@ const BlogPost = () => {
     if (!post) return <div className="text-white text-center mt-20">Post not found</div>;
 
     return (
-        <section className="c-space my-20 w-full px-4 max-w-7xl mx-auto">
+        <section className="c-space my-20 w-full px-4 max-w-screen-2xl mx-auto">
             <Link to="/blog" className="text-blue-400 hover:text-blue-300 mb-8 inline-flex items-center gap-2">
                 <span>&larr;</span> Back to Blog
             </Link>
@@ -185,8 +185,8 @@ const BlogPost = () => {
             <div className="grid grid-cols-1 lg:grid-cols-[1fr_350px] gap-12">
                 <article className="w-full max-w-4xl mx-auto">
                     {post.image && (
-                        <div className="w-full h-64 md:h-[500px] rounded-2xl overflow-hidden mb-2 lg:mb-8 border border-black-200">
-                            <img src={post.image} alt={post.title} className="w-full h-full object-cover" />
+                        <div className="w-full mb-2 lg:mb-8 flex justify-center">
+                            <img src={post.image} alt={post.title} className="max-w-full h-auto object-contain" />
                         </div>
                     )}
 
@@ -203,7 +203,7 @@ const BlogPost = () => {
                         </div>
                     )}
 
-                    <div className="mb-4 flex flex-wrap gap-2">
+                    <div className="mb-2 flex flex-wrap gap-2">
                         {post.tags ? post.tags.split(',').filter(t => t.trim()).map((tag, index) => (
                             <span key={index} className="bg-blue-500/10 text-blue-400 px-3 py-1 rounded-full text-sm font-medium border border-blue-500/20">
                                 {tag.trim()}
@@ -215,20 +215,20 @@ const BlogPost = () => {
                         )}
                     </div>
 
-                    <h1 className="text-3xl md:text-5xl font-bold text-white mb-6 leading-tight">{post.title}</h1>
+                    <h1 className="text-3xl md:text-5xl font-bold text-white mb-2 leading-tight">{post.title}</h1>
 
-                    <div className="flex items-center text-white-500 mb-10 text-sm border-b border-black-200 pb-8">
+                    <div className="flex items-center text-white-500 mb-2 text-sm border-b border-black-200 pb-2">
                         <span className="mr-4">{post.date}</span>
                         <span className="mr-4">•</span>
                         <span>{post.readTime}</span>
                     </div>
 
 
-                    <div className="prose prose-invert prose-lg max-w-none text-white-700
+                    <div className="prose prose-invert prose-lg max-w-none text-white-700 [&_p]:whitespace-pre-wrap
                 prose-headings:scroll-mt-0
-                prose-h2:text-white prose-h2:font-bold prose-h2:text-3xl md:prose-h2:text-4xl prose-h2:mt-2 prose-h2:mb-4
-                prose-h3:text-white prose-h3:font-semibold prose-h3:text-2xl md:prose-h3:text-3xl prose-h3:mt-2 prose-h3:mb-2
-                prose-p:leading-relaxed prose-p:mb-4
+                prose-h2:text-white prose-h2:font-bold prose-h2:text-3xl md:prose-h2:text-4xl prose-h2:mt-8 prose-h2:mb-4
+                prose-h3:text-white prose-h3:font-semibold prose-h3:text-2xl md:prose-h3:text-3xl prose-h3:mt-6 prose-h3:mb-3
+                prose-p:leading-relaxed prose-p:mb-3
                 prose-a:text-blue-400 prose-a:no-underline hover:prose-a:underline
                 prose-blockquote:border-l-4 prose-blockquote:border-blue-500 prose-blockquote:bg-blue-500/10 prose-blockquote:px-6 prose-blockquote:py-4 prose-blockquote:rounded-r-lg prose-blockquote:not-italic
                 prose-img:rounded-xl prose-img:border prose-img:border-black-200 prose-img:w-full
@@ -247,9 +247,16 @@ const BlogPost = () => {
                                 ),
                                 // Custom renderer for images
                                 img: ({ node, src, alt, ...props }) => (
-                                    <figure className="my-6">
-                                        <img src={src} alt={alt} className="w-full rounded-xl border border-black-200" {...props} />
-                                        {alt && <figcaption className="text-center text-white-500 text-sm mt-2">{alt}</figcaption>}
+                                    <figure className="my-8 flex flex-col items-center">
+                                        <div className="bg-black-200/30 rounded-xl overflow-hidden border border-black-200 p-2 max-w-full">
+                                            <img
+                                                src={src}
+                                                alt={alt}
+                                                className="max-h-[80vh] w-auto h-auto object-contain rounded-lg mx-auto"
+                                                {...props}
+                                            />
+                                        </div>
+                                        {alt && <figcaption className="text-center text-white-500 text-sm mt-3">{alt}</figcaption>}
                                     </figure>
                                 ),
                                 // Custom renderer for code blocks

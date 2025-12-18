@@ -3,7 +3,7 @@ import { useBlog } from '../context/BlogContext';
 import { useAuth } from '../context/AuthContext';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDropzone } from 'react-dropzone';
-import { compressImage } from '../utils/compressImage';
+import { processImage } from '../utils/processImage';
 
 const AdminDashboard = () => {
     const { posts, deletePost, loading, achievements, addAchievement, deleteAchievement, moveAchievement, updateAchievement } = useBlog();
@@ -21,7 +21,7 @@ const AdminDashboard = () => {
         const file = acceptedFiles[0];
         if (file) {
             try {
-                const compressed = await compressImage(file, 800, 0.8);
+                const compressed = await processImage(file);
                 setNewAch(prev => ({ ...prev, image: compressed }));
             } catch (error) {
                 console.error('Compression failed:', error);

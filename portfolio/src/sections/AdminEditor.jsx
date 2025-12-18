@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { useBlog } from '../context/BlogContext';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDropzone } from 'react-dropzone';
-import { compressImage } from '../utils/compressImage';
+import { processImage } from '../utils/processImage';
 
 const AdminEditor = () => {
     const { id } = useParams();
@@ -91,7 +91,7 @@ const AdminEditor = () => {
         const file = acceptedFiles[0];
         if (file) {
             try {
-                const compressed = await compressImage(file, 1200, 0.8);
+                const compressed = await processImage(file);
                 setFormData(prev => ({ ...prev, image: compressed }));
             } catch (error) {
                 console.error('Compression failed:', error);
@@ -104,7 +104,7 @@ const AdminEditor = () => {
         const file = acceptedFiles[0];
         if (file) {
             try {
-                const compressed = await compressImage(file, 800, 0.8);
+                const compressed = await processImage(file);
                 const fileId = `img_${Date.now()}`; // Unique reference ID
                 const referenceLink = `\n![${file.name}][${fileId}]`; // Short reference
 
